@@ -1,21 +1,25 @@
 import pytest
 from selenium import webdriver
-from utils.LoginPage import login
-
+from page.login_page import LoginPage
+from utils.data_reader import read_users_csv
 
 @pytest.fixture
 def driver():
     options = webdriver.ChromeOptions()
     options.add_argument("--incongnito")
-    
-    driver = webdriver.Chrome(options=options)
 
-#Yield funciona como un return(se pausa y se mete toda la prueba,para no estar retornando cada set con la prueba)
+    driver = webdriver.Chrome(options= options)
+
     yield driver
 
     driver.quit()
-    
+
 @pytest.fixture
-def login_in_driver(driver):
-    login(driver)
+def driver_logged(driver):
+    login_page = LoginPage(driver)
+
+    user = read_users_csv()[0]
+
+    login_page.login(user["username"],user["password"])
+
     return driver

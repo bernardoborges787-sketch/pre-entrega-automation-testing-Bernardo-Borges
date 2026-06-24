@@ -1,10 +1,11 @@
 
-```bash
-py -m pip install selenium
-py -m pip install webdriver-manager
-py -m pip install pytest
-py -m pip install pytest-html
-```
+selenium
+webdriver-manager
+pytest
+pytest-html
+requests
+
+
 
 
 

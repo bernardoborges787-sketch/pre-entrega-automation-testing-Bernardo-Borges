@@ -1,12 +1,22 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
+#from selenium import webdriver
+#from selenium.webdriver.common.by import By
+#from selenium.webdriver.common.keys import Keys
 
-def test_login_validation(login_in_driver):
-    try:
-        driver= login_in_driver
+from page.login_page import LoginPage
 
-        assert "/inventory.html" in driver.current_url, "No se redigio al inventario"
-    except Exception as e:
-     print(f"Error en test_login: {e}")
-     raise
+def test_login_validation(driver):
+    login_page = LoginPage(driver)
+    
+    login_page.login("standard_user", "secret_sauce")
+    
+    assert "/inventory.html" in driver.current_url, "No se redirigió al inventario"
+    
+def test_login_invalid_credentials(driver):
+    login_page = LoginPage(driver)
+    
+    login_page.login("invalid_user", "invalid_password")
+    
+    error_message = login_page.get_error_message()
+    assert error_message == "Epic sadface: Username and password do not match any user in this service", "No se mostró el mensaje de error esperado"   
+    
+     
